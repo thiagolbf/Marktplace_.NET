@@ -1,0 +1,6 @@
+@Markplace_HostAddress = http://localhost:5119
+
+GET {{Markplace_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
