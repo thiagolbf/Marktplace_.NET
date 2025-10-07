@@ -12,7 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\DTOs\" />
+    <Folder Include="Application\Mappers\" />
+    <Folder Include="Application\Validators\" />
+    <Folder Include="Application\UseCases\" />
+    <Folder Include="Application\Services\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Interfaces\" />
+    <Folder Include="Domain\ValueObjects\" />
+    <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Infrastructure\ExternalServices\" />
+    <Folder Include="Infrastructure\Context\" />
   </ItemGroup>
 
 </Project>
