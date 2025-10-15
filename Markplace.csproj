@@ -18,12 +18,12 @@
     <Folder Include="Application\UseCases\" />
     <Folder Include="Application\Services\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\Interfaces\" />
-    <Folder Include="Domain\ValueObjects\" />
     <Folder Include="Infrastructure\Migrations\" />
     <Folder Include="Infrastructure\ExternalServices\" />
     <Folder Include="Infrastructure\Context\" />
+    <Folder Include="Infrastructure\Mappings\" />
+    <Folder Include="Infrastructure\Repository\" />
   </ItemGroup>
 
 </Project>
