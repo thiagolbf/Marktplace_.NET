@@ -1,14 +1,10 @@
 ﻿namespace Markplace.Domain.Entities;
 
 public class PedidoItem : Entity
-{
-    
+{    
     public int Quantidade { get; private set; }
     public decimal Total { get; private set; }
     public decimal Preco { get; private set; }
-
-    public DateTime CriadoEm { get; private set; }
-    public DateTime AtualizadoEm { get; private set; }
 
     //FK para Pedido e Produto
     public int PedidoId { get; private set; }

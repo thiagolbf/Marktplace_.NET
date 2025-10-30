@@ -14,6 +14,5 @@ public class Avaliacao : Entity
 
     //Propriedade navegação
     public Cliente? Cliente { get; private set; }
-
     public Produto? Produto { get; private set; }
 }

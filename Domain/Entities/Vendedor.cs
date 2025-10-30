@@ -2,7 +2,7 @@
 
 namespace Markplace.Domain.Entities;
 
-public class Produtor : Entity
+public class Vendedor : Entity
 {
     public string? Empresa { get; private set; }
     public string? Descricao { get; private set; }
@@ -13,10 +13,9 @@ public class Produtor : Entity
     public DateTime AtualizadoEm { get; private set; }
 
     //FK para identity
-    public string? UserId { get; private set; }
+    public string? ApplicationUserId { get; private set; }
 
     //Propriedade de navegação
-    public IdentityUser? User { get; private set; }
-
+    public ApplicationUser? ApplicationUser { get; private set; }
     public ICollection<Produto>? Produtos { get; private set; }
 }

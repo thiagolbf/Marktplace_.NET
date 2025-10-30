@@ -10,12 +10,12 @@ public class Produto : Entity
     public DateTime CriadoEm { get; private set; }
     public DateTime AtualizadoEm { get; private set; }
 
-    //FK para Produtor
-    public int ProdutorId { get; private set; }
+    //FK para Vendedor
+    public int VendedorId { get; private set; }
     //Propriedade navegação
-    public Produtor? Produtor { get; private set; }
+    public Vendedor? Vendedor { get; private set; }
     public ICollection<ProdutoCategoria>? ProdutoCategorias { get; private set; }
     public ICollection<PedidoItem>? PedidoItens { get; private set; }
-    public ICollection<Avaliacao>? Avaliacaos { get; private set; }
+    public ICollection<Avaliacao>? Avaliacoes { get; private set; }
 
 }

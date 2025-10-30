@@ -8,5 +8,5 @@ public class ProdutoCategoria
 
     //Propriedade navegação
     public Produto? Produto { get; private set; }
-    public Cliente? Cliente { get; private set; }
+    public Categoria? Categoria { get; private set; }
 }

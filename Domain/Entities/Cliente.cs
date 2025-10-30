@@ -13,11 +13,13 @@ public class Cliente : Entity
         public DateTime AtualizadoEm { get; private set; }
 
         //FK para identity
-        public string? UserId {get; private set;}
+        //public string? UserId { get; private set; }
+        public string? ApplicationUserId { get; private set; }
 
         //Propriedade de navegação
-        public IdentityUser? User { get; private set; }
+        //public ApplicationUser? User { get; private set; }
+        public ApplicationUser? ApplicationUser { get; private set; }
         public ICollection<Pedido>? Pedidos { get; private set; }
-        public ICollection<Endereco>? Enderecos { get; private set; }
-        public ICollection<Avaliacao>? Avaliacaos { get; private set; }
+        public ICollection<Endereco> Enderecos { get; private set; } = new List<Endereco>();
+        public ICollection<Avaliacao>? Avaliacoes { get; private set; }
     }
