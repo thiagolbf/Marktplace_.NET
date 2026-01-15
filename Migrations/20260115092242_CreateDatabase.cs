@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Markplace.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class CreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -283,7 +283,7 @@ namespace Markplace.Migrations
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     VendedorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

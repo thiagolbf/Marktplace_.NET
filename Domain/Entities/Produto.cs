@@ -8,7 +8,7 @@ public class Produto : Entity
     public int Quantidade { get; private set; }
     public bool Ativo { get; private set; }
     public DateTime CriadoEm { get; private set; }
-    public DateTime AtualizadoEm { get; private set; }
+    public DateTime? AtualizadoEm { get; private set; }
 
     //FK para Vendedor
     public int VendedorId { get; private set; }
@@ -18,4 +18,40 @@ public class Produto : Entity
     public ICollection<PedidoItem>? PedidoItens { get; private set; }
     public ICollection<Avaliacao>? Avaliacoes { get; private set; }
 
+    protected Produto() { }
+
+    public Produto(string? nome, string? descricao, decimal preco, int quantidade, int vendedorId)
+    {
+        Nome = nome;
+        Descricao = descricao;
+        Preco = preco;
+        Quantidade = quantidade;
+        VendedorId = vendedorId;
+
+        Ativo = true;
+        CriadoEm = DateTime.UtcNow;
+        AtualizadoEm = null;
+    }
+
+    public void Desativar()
+    {
+        if (Ativo)
+        {
+            // TODO - Adicionar DomainException 
+        }
+
+        Ativo = false;
+        AtualizadoEm = DateTime.UtcNow;
+    }
+
+    //Produto AtualizarDTO!?
+    public void Atualizar()
+    {
+        
+
+    }
 }
+
+
+
+

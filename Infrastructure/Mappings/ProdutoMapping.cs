@@ -31,7 +31,6 @@ public class ProdutoMapping : IEntityTypeConfiguration<Produto>
             .HasColumnType("datetime2");
 
         builder.Property(x => x.AtualizadoEm)
-            .IsRequired()
             .HasColumnType("datetime2");
 
         //1:N => Produtor : Produtos

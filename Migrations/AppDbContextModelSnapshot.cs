@@ -335,7 +335,7 @@ namespace Markplace.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("AtualizadoEm")
+                    b.Property<DateTime?>("AtualizadoEm")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CriadoEm")

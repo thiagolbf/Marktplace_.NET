@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Markplace.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251030004709_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260115092242_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,7 +338,7 @@ namespace Markplace.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("AtualizadoEm")
+                    b.Property<DateTime?>("AtualizadoEm")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CriadoEm")
