@@ -15,16 +15,11 @@ public class CategoriaMapping : IEntityTypeConfiguration<Categoria>
             .HasMaxLength(200)
             .HasColumnType("varchar(200)");
 
-        builder.Property(x => x.Ativo)
-            .IsRequired()
-            .HasColumnType("bit");
-
         builder.Property(x => x.CriadoEm)
             .IsRequired()
             .HasColumnType("datetime2");
 
         builder.Property(x => x.AtualizadoEm)
-            .IsRequired()
             .HasColumnType("datetime2");
 
         builder.ToTable("Categorias");

@@ -13,10 +13,10 @@ public class Repository<T> : IRepository<T> where T : class
     {
         _context = context;
     }
-    public async Task<IEnumerable<T>> ObeterTodosAsync()
+
+    public virtual async Task<IEnumerable<T>> ObeterTodosAsync()
     {
         return await _context.Set<T>().AsNoTracking().ToListAsync();
-  
     }
 
     public async Task<T?> ObterPorIdAsync(int id)

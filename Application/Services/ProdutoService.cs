@@ -1,5 +1,7 @@
-Ôªøusing Markplace.Application.Interfaces;
+using Markplace.Application.DTOs.ProdutoContracts;
+using Markplace.Application.Interfaces;
 using Markplace.Domain.Entities;
+using Markplace.Domain.Exceptions;
 using Markplace.Domain.Interfaces.Repositories;
 using Markplace.Domain.Interfaces.UnitOfWork;
 
@@ -11,78 +13,95 @@ public class ProdutoService : IProdutoService
     private readonly IVendedorRepository _vendedorRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ProdutoService(IProdutoRepository produtoRepository, IVendedorRepository vendedorRepository,
-                            IUnitOfWork unitOfWork)
+    public ProdutoService(
+        IProdutoRepository produtoRepository,
+        IVendedorRepository vendedorRepository,
+        IUnitOfWork unitOfWork)
     {
         _produtoRepository = produtoRepository ?? throw new ArgumentNullException(nameof(produtoRepository));
         _vendedorRepository = vendedorRepository ?? throw new ArgumentException(nameof(vendedorRepository));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task Adicionar(Produto produto)
+    public async Task<Produto> Adicionar(ProdutoDTO produtoDto, string applicationUserId)
     {
+        if (string.IsNullOrWhiteSpace(applicationUserId))
+            throw new DomainException("Usuario invalido.");
 
-        var vendedor = await _vendedorRepository.ObterPorIdAsync(produto.VendedorId);
+        var vendedor = await _vendedorRepository.ObterPorApplicationUserIdAsync(applicationUserId);
+        if (vendedor == null)
+            throw new NotFoundException("Perfil de vendedor nao encontrado.");
 
-        if (vendedor == null) 
-            throw new Exception($"Vendedor com ID {produto.VendedorId} n√£o existe.");
+        var produto = new Produto(
+            produtoDto.Nome,
+            produtoDto.Descricao,
+            produtoDto.Preco,
+            produtoDto.Quantidade,
+            vendedor.Id
+        );
+
+        produto.AdicionarCategorias(produtoDto.CategoriasIds);
 
         _produtoRepository.Criar(produto);
         await _unitOfWork.CommitAsync();
-      
+        return produto;
     }
 
-    public Task Atualizar(Produto produto)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task Remover(int id)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-
-/*
- * 
- 
-public class ProdutoService : IProdutoService
-{
-    private readonly IProdutoRepository _produtoRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProdutoService(IProdutoRepository produtoRepository, IUnitOfWork unitOfWork)
-    {
-        _produtoRepository = produtoRepository ?? throw new ArgumentNullException(nameof(produtoRepository));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
-
-    public async Task Adicionar(Produto produto)
-    {
-        _produtoRepository.Criar(produto);
-        await _unitOfWork.CommitAsync();
-    }
-
-    public async Task Atualizar(Produto produto)
-    {
-        _produtoRepository.Atualizar(produto);
-        await _unitOfWork.CommitAsync();
-    }
-
-    public async Task Remover(int id)
+    public async Task Atualizar(int id, string nome, string descricao)
     {
         var produto = await _produtoRepository.ObterPorIdAsync(id);
 
         if (produto == null)
-            throw new Exception($"Produto com ID {id} n√£o foi encontrado.");
+            throw new NotFoundException($"Produto com ID {id} n„o encontrado.");
+
+        produto.AtualizarDados(nome, descricao);
+
+        _produtoRepository.Atualizar(produto);
+
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task AtualizarPreco(int produtoId, decimal novoPreco)
+    {
+        var produto = await _produtoRepository.ObterPorIdAsync(produtoId);
+
+        if (produto == null)
+            throw new NotFoundException($"Produto com ID {produtoId} n„o encontrado.");
+
+        produto.AtualizarPreco(novoPreco);
+
+        _produtoRepository.Atualizar(produto);
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task Remover(int produtoId)
+    {
+        var produto = await _produtoRepository.ObterPorIdAsync(produtoId);
+
+        if (produto == null)
+            throw new NotFoundException($"Produto com ID {produtoId} n„o encontrado.");
 
         produto.Desativar();
 
         _produtoRepository.Atualizar(produto);
         await _unitOfWork.CommitAsync();
-        // AQUI UTILIZA ATUALIZAR PORQUE √â UM SOFT DELETE e n√£o um HARD DELETE
-        ESSE √â O PONTO DE VIOLA√á√ÉO DE UM PRINCIO SOLID
+    }
+
+    public async Task<Produto> ObterPorId(int id)
+    {
+        if (id <= 0)
+            throw new DomainException("Id inv·lido.");
+
+        var produto = await _produtoRepository.ObterPorIdComDetalhesAsync(id);
+
+        if (produto is null)
+            throw new NotFoundException($"Produto com ID {id} n„o encontrado.");
+
+        return produto;
+    }
+
+    public async Task<IEnumerable<Produto>> ObterTodosAsync()
+    {
+        return await _produtoRepository.ObeterTodosAsync();
     }
 }
- */

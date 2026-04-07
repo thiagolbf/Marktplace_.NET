@@ -34,7 +34,8 @@ public class AvaliacaoMapping : IEntityTypeConfiguration<Avaliacao>
 
         // N:1 => Avaliacao : Produto
         builder.HasOne(x => x.Produto)
-            .WithMany(x => x.Avaliacoes)
+            //.WithMany(x => x.Avaliacoes) // Sem navegação reversa. Produto não precisa saber da avaliação
+            .WithMany()
             .HasForeignKey(x => x.ProdutoId)
             .OnDelete(DeleteBehavior.Cascade);
 

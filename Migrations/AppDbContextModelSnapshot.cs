@@ -136,10 +136,7 @@ namespace Markplace.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("AtualizadoEm")
+                    b.Property<DateTime?>("AtualizadoEm")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CriadoEm")
@@ -221,107 +218,6 @@ namespace Markplace.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Enderecos", (string)null);
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.Pagamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AtualizadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MetodoPagamento")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusPagamento")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("TransacaoId")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId")
-                        .IsUnique();
-
-                    b.ToTable("Pagamentos", (string)null);
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.Pedido", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AtualizadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("ValorTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.ToTable("Pedidos", (string)null);
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.PedidoItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Preco")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("PedidoItens", (string)null);
                 });
 
             modelBuilder.Entity("Markplace.Domain.Entities.Produto", b =>
@@ -569,7 +465,7 @@ namespace Markplace.Migrations
                         .IsRequired();
 
                     b.HasOne("Markplace.Domain.Entities.Produto", "Produto")
-                        .WithMany("Avaliacoes")
+                        .WithMany()
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -640,47 +536,6 @@ namespace Markplace.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("EnderecoValor");
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.Pagamento", b =>
-                {
-                    b.HasOne("Markplace.Domain.Entities.Pedido", "Pedido")
-                        .WithOne("Pagamento")
-                        .HasForeignKey("Markplace.Domain.Entities.Pagamento", "PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.Pedido", b =>
-                {
-                    b.HasOne("Markplace.Domain.Entities.Cliente", "Cliente")
-                        .WithMany("Pedidos")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.PedidoItem", b =>
-                {
-                    b.HasOne("Markplace.Domain.Entities.Pedido", "Pedido")
-                        .WithMany("PedidoItens")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Markplace.Domain.Entities.Produto", "Produto")
-                        .WithMany("PedidoItens")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("Markplace.Domain.Entities.Produto", b =>
@@ -790,23 +645,10 @@ namespace Markplace.Migrations
                     b.Navigation("Avaliacoes");
 
                     b.Navigation("Enderecos");
-
-                    b.Navigation("Pedidos");
-                });
-
-            modelBuilder.Entity("Markplace.Domain.Entities.Pedido", b =>
-                {
-                    b.Navigation("Pagamento");
-
-                    b.Navigation("PedidoItens");
                 });
 
             modelBuilder.Entity("Markplace.Domain.Entities.Produto", b =>
                 {
-                    b.Navigation("Avaliacoes");
-
-                    b.Navigation("PedidoItens");
-
                     b.Navigation("ProdutoCategorias");
                 });
 

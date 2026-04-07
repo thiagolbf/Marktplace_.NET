@@ -9,4 +9,16 @@ public class ProdutoCategoria
     //Propriedade navegação
     public Produto? Produto { get; private set; }
     public Categoria? Categoria { get; private set; }
+
+    protected ProdutoCategoria() { }
+
+    public ProdutoCategoria(Produto produto, int categoriaId)
+    {
+        Produto = produto ?? throw new Exception("Produto obrigatório");
+        
+        if (categoriaId <= 0)
+            throw new Exception("Categoria inválida.");
+
+        CategoriaId = categoriaId;
+    }
 }
